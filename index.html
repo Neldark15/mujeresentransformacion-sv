@@ -28,6 +28,47 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Dancing+Script:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="css/style.css" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://mujeresentransformacion.com/#org",
+        "name": "Mujeres en Transformación",
+        "alternateName": "MET",
+        "url": "https://mujeresentransformacion.com",
+        "logo": "https://mujeresentransformacion.com/images/logo-morado.png",
+        "sameAs": [
+          "https://www.instagram.com/mujeresentransformacion.sv/",
+          "https://www.tiktok.com/@mujeresentransformacion_"
+        ],
+        "areaServed": "SV",
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "telephone": "+503-6309-6466",
+          "contactType": "customer service",
+          "availableLanguage": ["Spanish"]
+        }
+      },
+      {
+        "@type": "Product",
+        "name": "Cuaderno de mis Sueños",
+        "image": "https://mujeresentransformacion.com/images/cuaderno-portada.png",
+        "description": "Cuaderno físico para organizar metas, reconocer dones, visualizar y trabajar diariamente hacia los sueños con propósito.",
+        "brand": { "@id": "https://mujeresentransformacion.com/#org" },
+        "offers": {
+          "@type": "Offer",
+          "availability": "https://schema.org/InStock",
+          "priceCurrency": "USD",
+          "areaServed": "SV",
+          "url": "https://mujeresentransformacion.com/checkout.html"
+        }
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
   <header class="site-header" id="top">
@@ -38,7 +79,9 @@
       <nav class="main-nav" id="mainNav" aria-label="Navegación principal">
         <a href="#que-incluye">Qué incluye</a>
         <a href="#sobre-met">Sobre MET</a>
-        <a href="https://wa.me/50363096466?text=%F0%9F%A6%8B%20%C2%A1Hola!%20Me%20interesa%20saber%20m%C3%A1s%20sobre%20el%20Cuaderno%20de%20mis%20Sue%C3%B1os%20%E2%9C%A8%20%C2%BFMe%20pueden%20dar%20m%C3%A1s%20informaci%C3%B3n%3F" target="_blank" rel="noopener noreferrer" class="nav-cta">Contacto</a>
+        <a href="#testimonios">Testimonios</a>
+        <a href="#faq">FAQ</a>
+        <a href="checkout.html" class="nav-cta">Comprar</a>
       </nav>
       <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="mainNav">
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -82,7 +125,10 @@
           </div>
         </div>
         <div class="hero-image">
-          <img src="images/cuaderno-portada.png" alt="Cuaderno de mis Sueños - Portada" width="450" height="600" />
+          <picture>
+            <source srcset="images/cuaderno-portada.webp" type="image/webp" />
+            <img src="images/cuaderno-portada.png" alt="Cuaderno de mis Sueños - Portada" width="450" height="600" fetchpriority="high" />
+          </picture>
         </div>
       </div>
     </section>
@@ -234,9 +280,24 @@
           <h3>Mira algunas <span class="script">páginas</span></h3>
         </div>
         <div class="preview-grid">
-          <figure><img src="images/cuaderno-pagina-3.png" alt="Página de Dones y Talentos" loading="lazy" /></figure>
-          <figure><img src="images/cuaderno-pagina-2.png" alt="Página de Agradecimiento" loading="lazy" /></figure>
-          <figure><img src="images/cuaderno-pagina-1.png" alt="Página de Trabajo Diario" loading="lazy" /></figure>
+          <figure>
+            <picture>
+              <source srcset="images/cuaderno-pagina-3.webp" type="image/webp" />
+              <img src="images/cuaderno-pagina-3.png" alt="Página de Dones y Talentos" loading="lazy" />
+            </picture>
+          </figure>
+          <figure>
+            <picture>
+              <source srcset="images/cuaderno-pagina-2.webp" type="image/webp" />
+              <img src="images/cuaderno-pagina-2.png" alt="Página de Agradecimiento" loading="lazy" />
+            </picture>
+          </figure>
+          <figure>
+            <picture>
+              <source srcset="images/cuaderno-pagina-1.webp" type="image/webp" />
+              <img src="images/cuaderno-pagina-1.png" alt="Página de Trabajo Diario" loading="lazy" />
+            </picture>
+          </figure>
         </div>
       </div>
     </section>
@@ -281,10 +342,145 @@
       </div>
     </section>
 
+    <section id="testimonios" class="testimonials">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">Historias reales</p>
+          <h2>Lo que dicen las <span class="script">mujeres</span> que ya lo viven</h2>
+          <p class="lead">Testimonios de quienes ya están en transformación</p>
+        </div>
+        <div class="testimonials-grid">
+          <!-- TODO: reemplazar con testimonios reales (texto + foto + nombre + ciudad)
+               Esta es una estructura de plantilla. Pedir 3-6 testimonios al cliente. -->
+          <article class="testimonial">
+            <div class="quote-mark" aria-hidden="true">
+              <svg width="36" height="36" viewBox="0 0 36 36" fill="currentColor"><path d="M11 26c-3 0-5-2-5-5 0-4 3-7 7-9l1 2c-3 1-5 3-5 5h2c2 0 3 1 3 3 0 2-1 4-3 4Zm14 0c-3 0-5-2-5-5 0-4 3-7 7-9l1 2c-3 1-5 3-5 5h2c2 0 3 1 3 3 0 2-1 4-3 4Z"/></svg>
+            </div>
+            <p class="testimonial-text">[Aquí va el testimonio real de una clienta. Sustituir este texto por una cita corta — 2 a 3 líneas — que describa cómo el cuaderno la ayudó a organizar sus metas o transformar su vida.]</p>
+            <div class="testimonial-author">
+              <div class="avatar" aria-hidden="true">M</div>
+              <div>
+                <strong>[Nombre de la clienta]</strong>
+                <span>[Ciudad, El Salvador]</span>
+              </div>
+            </div>
+          </article>
+          <article class="testimonial">
+            <div class="quote-mark" aria-hidden="true">
+              <svg width="36" height="36" viewBox="0 0 36 36" fill="currentColor"><path d="M11 26c-3 0-5-2-5-5 0-4 3-7 7-9l1 2c-3 1-5 3-5 5h2c2 0 3 1 3 3 0 2-1 4-3 4Zm14 0c-3 0-5-2-5-5 0-4 3-7 7-9l1 2c-3 1-5 3-5 5h2c2 0 3 1 3 3 0 2-1 4-3 4Z"/></svg>
+            </div>
+            <p class="testimonial-text">[Segundo testimonio placeholder. Idealmente cubrir un beneficio distinto al primero: por ejemplo, agradecimiento, claridad de propósito o reconciliación con los sueños propios.]</p>
+            <div class="testimonial-author">
+              <div class="avatar" aria-hidden="true">A</div>
+              <div>
+                <strong>[Nombre de la clienta]</strong>
+                <span>[Ciudad, El Salvador]</span>
+              </div>
+            </div>
+          </article>
+          <article class="testimonial">
+            <div class="quote-mark" aria-hidden="true">
+              <svg width="36" height="36" viewBox="0 0 36 36" fill="currentColor"><path d="M11 26c-3 0-5-2-5-5 0-4 3-7 7-9l1 2c-3 1-5 3-5 5h2c2 0 3 1 3 3 0 2-1 4-3 4Zm14 0c-3 0-5-2-5-5 0-4 3-7 7-9l1 2c-3 1-5 3-5 5h2c2 0 3 1 3 3 0 2-1 4-3 4Z"/></svg>
+            </div>
+            <p class="testimonial-text">[Tercer testimonio. Sugerencia: que mencione una acción concreta que la clienta tomó después de empezar a usar el cuaderno.]</p>
+            <div class="testimonial-author">
+              <div class="avatar" aria-hidden="true">J</div>
+              <div>
+                <strong>[Nombre de la clienta]</strong>
+                <span>[Ciudad, El Salvador]</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" class="faq">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">Preguntas frecuentes</p>
+          <h2>¿Aún tienes <span class="script">dudas</span>?</h2>
+          <p class="lead">Aquí respondemos lo que más nos preguntan</p>
+        </div>
+        <div class="faq-list">
+          <details class="faq-item">
+            <summary>
+              ¿Cuánto cuesta el Cuaderno de mis Sueños?
+              <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </summary>
+            <div class="faq-answer">
+              <p>[Pendiente confirmar el precio con el equipo de MET. Ej.: "El cuaderno tiene un precio de $XX, incluye envío gratis a partir de $YY."]</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary>
+              ¿Hacen envíos a todo El Salvador?
+              <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </summary>
+            <div class="faq-answer">
+              <p>Sí, enviamos el cuaderno a los 14 departamentos del país. El tiempo estimado de entrega es de [confirmar con cliente] días hábiles desde la confirmación del pago.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary>
+              ¿Qué métodos de pago aceptan?
+              <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </summary>
+            <div class="faq-answer">
+              <p>Aceptamos pago en línea con tarjeta de crédito o débito (Visa y Mastercard) procesado de forma segura por nuestro proveedor. También puedes coordinar tu pedido directamente por WhatsApp si lo prefieres.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary>
+              ¿El cuaderno es físico o digital?
+              <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </summary>
+            <div class="faq-answer">
+              <p>[Confirmar con cliente. Actualmente el sitio dice "envío a todo El Salvador" y "descarga inmediata" — hay que aclarar si es producto físico, digital o ambos.]</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary>
+              ¿Cuántas páginas tiene el cuaderno?
+              <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </summary>
+            <div class="faq-answer">
+              <p>Más de 50 páginas de contenido guiado: secciones para metas, carta de decreto, dones y talentos, ejercicios de visualización, diario de agradecimiento y espacios para trabajar tus sueños cada día.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary>
+              ¿Hacen devoluciones o cambios?
+              <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </summary>
+            <div class="faq-answer">
+              <p>[Definir con cliente: política de devolución. Recomendado: cambio dentro de los X días si el producto llega dañado, sin devolución por uso del cuaderno.]</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary>
+              ¿Puedo regalarlo? ¿Tienen empaque especial?
+              <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </summary>
+            <div class="faq-answer">
+              <p>¡Por supuesto! Es un regalo perfecto para una mujer en transformación. Si quieres una dedicatoria especial, indícalo en el campo de notas al hacer tu pedido y con gusto la incluimos.</p>
+            </div>
+          </details>
+        </div>
+        <p class="faq-cta">
+          ¿No encontraste tu respuesta?
+          <a href="https://wa.me/50363096466?text=%C2%A1Hola!%20Tengo%20una%20pregunta%20sobre%20el%20Cuaderno%20de%20mis%20Sue%C3%B1os" target="_blank" rel="noopener noreferrer">Escríbenos por WhatsApp</a>
+        </p>
+      </div>
+    </section>
+
     <section id="comprar" class="buy">
       <div class="container buy-grid">
         <div class="buy-image">
-          <img src="images/cuaderno-portada.png" alt="Cuaderno de mis Sueños" width="350" height="450" loading="lazy" />
+          <picture>
+            <source srcset="images/cuaderno-portada.webp" type="image/webp" />
+            <img src="images/cuaderno-portada.png" alt="Cuaderno de mis Sueños" width="350" height="450" loading="lazy" />
+          </picture>
         </div>
         <div class="buy-text">
           <p class="eyebrow">Lleva el tuyo hoy</p>
