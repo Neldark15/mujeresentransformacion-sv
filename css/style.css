@@ -248,16 +248,17 @@ h3 { font-size: 1.25rem; }
 }
 .check-list li:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
 .check-list li::before {
-  content: '✓';
+  content: '';
   flex: 0 0 28px;
   height: 28px;
   border-radius: 50%;
-  background: var(--color-primary);
-  color: var(--color-white);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
+  background: var(--color-primary) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><path d='M5 12.5l4.5 4.5L19 7'/></svg>") center / 14px no-repeat;
+}
+.check-list.small li::before {
+  flex: 0 0 22px;
+  height: 22px;
+  background-size: 11px;
+  background-color: var(--color-primary-light);
 }
 .check-list.small li { padding: 12px 14px; font-size: 0.95rem; box-shadow: none; background: transparent; }
 
@@ -279,9 +280,23 @@ h3 { font-size: 1.25rem; }
 }
 .feature:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
 .feature-icon {
-  font-size: 2.3rem;
-  margin-bottom: 14px;
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 18px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(107, 63, 160, 0.10), rgba(169, 139, 209, 0.18));
+  color: var(--color-primary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform .25s ease, background .25s ease, color .25s ease;
 }
+.feature:hover .feature-icon {
+  transform: rotate(-4deg) scale(1.05);
+  background: var(--color-primary);
+  color: var(--color-white);
+}
+.icon-strip { flex-shrink: 0; }
 .feature h3 { color: var(--color-primary-dark); }
 .feature p { color: var(--color-text-soft); margin: 0; font-size: 0.96rem; }
 
@@ -341,13 +356,18 @@ h3 { font-size: 1.25rem; }
   flex-wrap: wrap;
 }
 .pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   background: var(--color-bg-alt);
   color: var(--color-primary);
-  padding: 8px 22px;
+  padding: 8px 18px 8px 14px;
   border-radius: var(--radius-pill);
   font-weight: 600;
   font-size: 0.92rem;
+  border: 1px solid rgba(107, 63, 160, 0.15);
 }
+.pill svg { flex-shrink: 0; }
 
 /* ===== Buy ===== */
 .buy { padding: 90px 0; background: var(--color-bg-alt); }

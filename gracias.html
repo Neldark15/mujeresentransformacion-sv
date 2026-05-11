@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>¡Gracias por tu pedido! | Mujeres en Transformación</title>
+  <meta name="robots" content="noindex" />
+
+  <link rel="icon" href="images/logo-morado.png" type="image/png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Dancing+Script:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/checkout.css" />
+</head>
+<body>
+  <main class="thanks-page">
+    <div class="container thanks-card">
+      <div class="thanks-icon" aria-hidden="true">
+        <svg width="80" height="80" viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="40" cy="40" r="36"/>
+          <path d="m26 41 10 10 20-22"/>
+        </svg>
+      </div>
+      <h1>¡Gracias por tu pedido! <span class="script">✨</span></h1>
+      <p class="lead">Tu pago se procesó correctamente.</p>
+      <p>Te enviaremos un correo de confirmación a la brevedad y nos pondremos en contacto contigo por <strong>WhatsApp</strong> para coordinar la entrega de tu <em>Cuaderno de mis Sueños</em>.</p>
+
+      <div class="order-id-box" id="orderIdBox" hidden>
+        <span>Referencia de tu pedido</span>
+        <strong id="orderId"></strong>
+      </div>
+
+      <div class="thanks-actions">
+        <a href="/" class="btn btn-primary">Volver al inicio</a>
+        <a href="https://www.instagram.com/mujeresentransformacion.sv/" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">Síguenos en Instagram</a>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const orderCode = params.get('order') || params.get('orderCode');
+    if (orderCode) {
+      document.getElementById('orderId').textContent = orderCode;
+      document.getElementById('orderIdBox').hidden = false;
+    }
+  </script>
+</body>
+</html>
