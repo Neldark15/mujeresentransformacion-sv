@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tienda | Mujeres en Transformación</title>
+  <meta name="description" content="Cuadernos, papelería, apparel y accesorios diseñados desde la fe para mujeres en transformación." />
+
+  <meta property="og:title" content="Tienda MET — Mujeres en Transformación" />
+  <meta property="og:description" content="Cuadernos, papelería, apparel y accesorios diseñados desde la fe." />
+  <meta property="og:image" content="images/cuaderno-portada.png" />
+
+  <link rel="icon" href="images/logo-morado.png" type="image/png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Dancing+Script:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/tienda.css" />
+</head>
+<body>
+  <a href="#main" class="skip-link">Saltar al contenido</a>
+  <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+
+  <header class="site-header" id="top">
+    <div class="container header-inner">
+      <a href="/" class="logo-link" aria-label="Inicio - Mujeres en Transformación">
+        <img src="images/logo-morado.png" alt="Mujeres en Transformación" width="180" height="60" />
+      </a>
+      <nav class="main-nav" id="mainNav" aria-label="Navegación principal">
+        <a href="/">Inicio</a>
+        <a href="/tienda.html" class="active">Tienda</a>
+        <a href="/#sobre-met">Sobre MET</a>
+        <a href="/#faq">FAQ</a>
+        <button class="theme-toggle" id="themeToggle" aria-label="Cambiar tema claro/oscuro" type="button">
+          <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+          <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+        <button class="cart-button" id="cartButton" aria-label="Abrir carrito" type="button">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 3h2l2.7 13.4A2 2 0 0 0 9.7 18h8.6a2 2 0 0 0 2-1.6L22 7H6"/>
+            <circle cx="9" cy="21" r="1.5"/>
+            <circle cx="19" cy="21" r="1.5"/>
+          </svg>
+          <span class="cart-badge" id="cartBadge" hidden>0</span>
+        </button>
+      </nav>
+      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="mainNav">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 5h16"></path><path d="M4 12h16"></path><path d="M4 19h16"></path>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- Hero del catálogo -->
+    <section class="shop-hero">
+      <div class="container">
+        <p class="eyebrow">La tienda MET</p>
+        <h1>Todo lo que <span class="script">necesitas</span> para tu transformación</h1>
+        <p class="lead">Cuadernos, papelería, apparel y accesorios diseñados desde la fe para acompañarte en cada paso.</p>
+      </div>
+    </section>
+
+    <!-- Filtros y catálogo -->
+    <section class="shop-section">
+      <div class="container">
+
+        <div class="shop-toolbar">
+          <div class="shop-search">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            <input type="search" id="searchInput" placeholder="Buscar producto..." aria-label="Buscar producto" />
+          </div>
+          <div class="shop-sort">
+            <label for="sortSelect" class="visually-hidden">Ordenar por</label>
+            <select id="sortSelect" aria-label="Ordenar productos">
+              <option value="destacados">Destacados</option>
+              <option value="precio-asc">Precio: menor a mayor</option>
+              <option value="precio-desc">Precio: mayor a menor</option>
+              <option value="nombre">Nombre (A-Z)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="shop-layout">
+          <aside class="shop-filters" id="shopFilters">
+            <h2>Categorías</h2>
+            <ul class="filter-list" id="categoryList">
+              <!-- Se renderiza con JS -->
+            </ul>
+            <button class="btn btn-ghost btn-small" id="clearFilters" type="button">Limpiar filtros</button>
+          </aside>
+
+          <div class="shop-results">
+            <div class="results-info">
+              <span id="resultsCount">Cargando productos...</span>
+            </div>
+
+            <div class="product-grid" id="productGrid" aria-live="polite">
+              <!-- Skeleton placeholders mientras carga -->
+              <div class="product-card skeleton"></div>
+              <div class="product-card skeleton"></div>
+              <div class="product-card skeleton"></div>
+              <div class="product-card skeleton"></div>
+              <div class="product-card skeleton"></div>
+              <div class="product-card skeleton"></div>
+            </div>
+
+            <div class="no-results" id="noResults" hidden>
+              <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3M8 11h6"/></svg>
+              <h3>No encontramos productos</h3>
+              <p>Intenta con otra búsqueda o limpia los filtros.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- Cart drawer (compartido) -->
+  <div class="cart-drawer" id="cartDrawer" role="dialog" aria-modal="true" aria-label="Carrito de compras" hidden>
+    <div class="cart-drawer-overlay" id="cartOverlay"></div>
+    <aside class="cart-drawer-panel">
+      <header class="cart-drawer-head">
+        <h2>Tu carrito</h2>
+        <button type="button" class="cart-close" id="cartClose" aria-label="Cerrar carrito">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
+      </header>
+      <div class="cart-items" id="cartItems"></div>
+      <div class="cart-empty" id="cartEmpty">
+        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 3h2l2.7 13.4A2 2 0 0 0 9.7 18h8.6a2 2 0 0 0 2-1.6L22 7H6"/>
+          <circle cx="9" cy="21" r="1.5"/>
+          <circle cx="19" cy="21" r="1.5"/>
+        </svg>
+        <p>Tu carrito está vacío</p>
+        <a href="/tienda.html" class="btn btn-primary">Ver productos</a>
+      </div>
+      <footer class="cart-drawer-foot" id="cartFoot" hidden>
+        <div class="cart-subtotal">
+          <span>Subtotal</span>
+          <strong id="cartSubtotal">$ 0.00</strong>
+        </div>
+        <p class="micro">El envío se calcula en el siguiente paso</p>
+        <a href="/carrito.html" class="btn btn-primary btn-large">Continuar al checkout</a>
+        <button type="button" class="btn btn-ghost btn-small" id="continueShopping">Seguir comprando</button>
+      </footer>
+    </aside>
+  </div>
+
+  <!-- Toast notifications -->
+  <div class="toast-container" id="toastContainer" aria-live="polite" aria-atomic="true"></div>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <img src="images/logo-blanco.png" alt="Mujeres en Transformación" width="200" height="80" class="footer-logo" />
+      <p class="footer-tag">Creamos herramientas desde la fe para mujeres que están listas para transformar su vida y vivir su propósito.</p>
+      <p class="copy">Hecho con amor por MET | <span id="year">2026</span></p>
+    </div>
+  </footer>
+
+  <script type="module" src="js/cart.js"></script>
+  <script type="module" src="js/tienda.js"></script>
+  <script src="js/script.js" defer></script>
+</body>
+</html>
