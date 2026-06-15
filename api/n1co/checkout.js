@@ -1,23 +1,24 @@
 /**
  * POST /api/n1co/checkout
  *
- * Crea un link de pago en n1co a partir de los datos del formulario.
+ * Crea un link de pago en n1co a partir del carrito + datos de envío.
  *
  * Variables de entorno requeridas (Vercel):
  *   - N1CO_CLIENT_ID
  *   - N1CO_CLIENT_SECRET
  *   - N1CO_BASE_URL          (ej: https://api-sandbox.n1co.shop)
- *   - N1CO_CHECKOUT_BASE_URL (ej: https://api-sandbox.n1co.shop o el host
- *                             dedicado de CheckoutLink que provea n1co)
+ *   - N1CO_CHECKOUT_BASE_URL (ej: igual al base, o el host dedicado)
  *   - SITE_URL               (ej: https://mujeresentransformacion.com)
  *
- * El precio se define server-side por seguridad (NO confiar en el cliente).
+ * IMPORTANTE: los precios se recomputan SIEMPRE server-side a partir
+ * del catálogo en productos.js. Nunca se confía en lo que envía el cliente.
  */
 
-const PRODUCT_PRICE = 25.00;   // ← actualizar al precio real
-const SHIPPING_PRICE = 4.00;   // ← actualizar a la política de envío
-const PRODUCT_NAME = 'Cuaderno de mis Sueños';
-const PRODUCT_DESCRIPTION = 'Mujeres en Transformación — Cuaderno físico para organizar metas, dones, agradecimiento y visualización.';
+import { PRODUCTOS, getProductoById } from '../../js/productos.js';
+
+const SHIPPING_FLAT = 4.00;   // ← ajustar cuando el cliente confirme
+const MAX_ITEM_QTY  = 10;
+const MAX_ITEMS     = 20;
 
 // Token cache (en memoria caliente del runtime de Vercel)
 let cachedToken = null;
@@ -28,7 +29,6 @@ async function getAccessToken() {
   if (cachedToken && now < tokenExpiresAt - 30_000) {
     return cachedToken;
   }
-
   const res = await fetch(`${process.env.N1CO_BASE_URL}/api/v3/Token`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -37,12 +37,10 @@ async function getAccessToken() {
       clientSecret: process.env.N1CO_CLIENT_SECRET
     })
   });
-
   if (!res.ok) {
     const text = await res.text().catch(() => '');
     throw new Error(`n1co token error ${res.status}: ${text}`);
   }
-
   const data = await res.json();
   cachedToken = data.accessToken;
   tokenExpiresAt = now + (data.expiresIn || 3600) * 1000;
@@ -50,7 +48,6 @@ async function getAccessToken() {
 }
 
 function generateOrderReference() {
-  // Ejemplo: MET-1731270000123-XK7
   const ts = Date.now();
   const rnd = Math.random().toString(36).slice(2, 5).toUpperCase();
   return `MET-${ts}-${rnd}`;
@@ -58,6 +55,44 @@ function generateOrderReference() {
 
 function bad(res, code, msg) {
   res.status(code).json({ error: msg });
+}
+
+/**
+ * Toma los items del cliente y los resuelve contra el catálogo,
+ * descartando productos inexistentes y normalizando cantidades.
+ */
+function resolveItems(rawItems = []) {
+  if (!Array.isArray(rawItems) || rawItems.length === 0) {
+    return { items: [], subtotal: 0 };
+  }
+  const slice = rawItems.slice(0, MAX_ITEMS);
+  const items = [];
+  let subtotal = 0;
+
+  for (const raw of slice) {
+    const product = getProductoById(raw?.productId);
+    if (!product || product.stock === 0) continue;
+    const qty = Math.max(1, Math.min(MAX_ITEM_QTY, parseInt(raw.quantity || 1, 10)));
+    // Validar variante (si el producto tiene)
+    let variantId = null;
+    let variantLabel = null;
+    if (product.variantes) {
+      const found = product.variantes.opciones.find(o => o.id === raw.variantId);
+      if (!found) continue;       // variante requerida pero no enviada → ignoramos el item
+      variantId = found.id;
+      variantLabel = found.label;
+    }
+    items.push({
+      product,
+      qty,
+      variantId,
+      variantLabel,
+      lineTotal: +(product.precio * qty).toFixed(2)
+    });
+    subtotal += product.precio * qty;
+  }
+
+  return { items, subtotal: +subtotal.toFixed(2) };
 }
 
 export default async function handler(req, res) {
@@ -68,9 +103,9 @@ export default async function handler(req, res) {
 
   try {
     const body = req.body || {};
-    const { customer = {}, shipping = {}, item = {} } = body;
+    const { customer = {}, shipping = {} } = body;
 
-    // Validación mínima
+    // ---- Validación de datos del cliente ----
     const required = [
       [customer.fullName, 'fullName'],
       [customer.email, 'email'],
@@ -88,41 +123,58 @@ export default async function handler(req, res) {
       return bad(res, 400, 'Email inválido');
     }
 
-    const quantity = Math.max(1, Math.min(10, parseInt(item.quantity || 1, 10)));
-    const subtotal = +(PRODUCT_PRICE * quantity).toFixed(2);
-    const total = +(subtotal + SHIPPING_PRICE).toFixed(2);
+    // ---- Resolver items del carrito ----
+    const { items, subtotal } = resolveItems(body.items);
+    if (items.length === 0) {
+      return bad(res, 400, 'El carrito está vacío o no contiene productos válidos');
+    }
+
+    // Si todo el carrito es digital, no cobramos envío
+    const allDigital = items.every(i => i.product.digital);
+    const shippingCost = allDigital ? 0 : SHIPPING_FLAT;
+    const total = +(subtotal + shippingCost).toFixed(2);
     const orderReference = generateOrderReference();
 
-    // Construye el payload para n1co CheckoutLink
+    const lineItems = items.map(i => ({
+      sku: i.product.sku,
+      product: {
+        name: i.variantLabel ? `${i.product.nombre} — ${i.variantLabel}` : i.product.nombre,
+        price: i.product.precio,
+        imageUrl: `${process.env.SITE_URL}${i.product.imagenes?.[0]?.src?.startsWith('/') ? '' : '/'}${i.product.imagenes?.[0]?.src || 'images/logo-morado.png'}`,
+        requiresShipping: !i.product.digital
+      },
+      quantity: i.qty
+    }));
+
+    // Resumen humano para n1co
+    const orderName = items.length === 1
+      ? items[0].product.nombre
+      : `Pedido MET (${items.reduce((s, i) => s + i.qty, 0)} productos)`;
+    const orderDescription = items
+      .map(i => `${i.qty}× ${i.product.nombre}${i.variantLabel ? ` (${i.variantLabel})` : ''}`)
+      .join(' · ')
+      .slice(0, 2048);
+
     const checkoutPayload = {
       orderReference,
-      orderName: PRODUCT_NAME,
-      orderDescription: PRODUCT_DESCRIPTION,
+      orderName,
+      orderDescription,
       amount: total,
       successUrl: `${process.env.SITE_URL}/gracias.html?order=${encodeURIComponent(orderReference)}`,
-      cancelUrl: `${process.env.SITE_URL}/pago-cancelado.html`,
+      cancelUrl:  `${process.env.SITE_URL}/pago-cancelado.html`,
       expirationMinutes: 60,
-      lineItems: [
-        {
-          sku: item.sku || 'CMS-MET-001',
-          product: {
-            name: PRODUCT_NAME,
-            price: PRODUCT_PRICE,
-            imageUrl: `${process.env.SITE_URL}/images/cuaderno-portada.png`,
-            requiresShipping: true
-          },
-          quantity
-        }
-      ],
+      lineItems,
       metadata: [
-        { name: 'customerName', value: customer.fullName },
-        { name: 'customerEmail', value: customer.email },
-        { name: 'customerPhone', value: customer.phone },
+        { name: 'customerName',       value: customer.fullName },
+        { name: 'customerEmail',      value: customer.email },
+        { name: 'customerPhone',      value: customer.phone },
         { name: 'shippingDepartment', value: shipping.department },
-        { name: 'shippingCity', value: shipping.city },
-        { name: 'shippingAddress', value: shipping.address },
-        { name: 'shippingNotes', value: shipping.notes || '' },
-        { name: 'shippingPrice', value: String(SHIPPING_PRICE) }
+        { name: 'shippingCity',       value: shipping.city },
+        { name: 'shippingAddress',    value: shipping.address },
+        { name: 'shippingNotes',      value: shipping.notes || '' },
+        { name: 'shippingPrice',      value: String(shippingCost) },
+        { name: 'subtotal',           value: String(subtotal) },
+        { name: 'allDigital',         value: String(allDigital) }
       ]
     };
 
@@ -147,14 +199,17 @@ export default async function handler(req, res) {
 
     const out = await r.json();
 
-    // TODO (Sprint siguiente): guardar el pedido en Supabase/Sheet con
-    // status=PENDING para reconciliar con el webhook posterior.
+    // TODO (Sprint 3): persistir el pedido en Supabase con status=PENDING
+    // para reconciliar luego con el webhook (PAID/CANCELLED).
 
     return res.status(200).json({
       orderCode: out.orderCode,
       orderId: out.orderId,
       paymentLinkUrl: out.paymentLinkUrl,
-      orderReference
+      orderReference,
+      total,
+      subtotal,
+      shipping: shippingCost
     });
   } catch (err) {
     console.error('checkout fatal', err);

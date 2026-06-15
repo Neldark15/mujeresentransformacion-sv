@@ -119,13 +119,13 @@
 
       <aside class="order-summary">
         <h2>Resumen del pedido</h2>
-        <div class="order-item">
-          <img src="images/cuaderno-portada.png" alt="Cuaderno de mis Sueños" />
-          <div>
-            <h3>Cuaderno de mis Sueños</h3>
-            <p class="muted">Edición Mujeres en Transformación</p>
-            <p class="qty">Cantidad: 1</p>
-          </div>
+
+        <div id="orderItems" class="order-items"></div>
+
+        <div id="orderEmptyState" class="order-empty" hidden>
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3h2l2.7 13.4A2 2 0 0 0 9.7 18h8.6a2 2 0 0 0 2-1.6L22 7H6"/><circle cx="9" cy="21" r="1.5"/><circle cx="19" cy="21" r="1.5"/></svg>
+          <p>Tu carrito está vacío</p>
+          <a href="/tienda.html" class="btn btn-primary btn-small">Ir a la tienda</a>
         </div>
 
         <div class="order-totals">
@@ -136,7 +136,7 @@
 
         <p class="micro">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 17h.01"/></svg>
-          El precio final se confirma al ser redirigida al pago.
+          Pago procesado de forma segura por n1co.
         </p>
       </aside>
 
@@ -149,6 +149,6 @@
     </div>
   </footer>
 
-  <script src="js/checkout.js"></script>
+  <script type="module" src="js/checkout.js"></script>
 </body>
 </html>
