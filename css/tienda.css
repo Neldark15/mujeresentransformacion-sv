@@ -54,6 +54,9 @@
   justify-content: center;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
+/* El display:inline-flex de arriba ganaba al atributo [hidden] (UA),
+   por eso el badge mostraba "0" con el carrito vacío. Lo corregimos: */
+.cart-badge[hidden] { display: none; }
 .cart-badge.bump { animation: badgePop .5s cubic-bezier(.34, 1.56, .64, 1); }
 @keyframes badgePop {
   0%   { transform: scale(1); }

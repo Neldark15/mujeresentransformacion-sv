@@ -102,9 +102,12 @@
       var isHome = nav === 'home';
       var logoHref = isHome ? '#top' : '/';
       var linksHTML = navLinks(isHome ? NAV_HOME : NAV_SHOP, active);
+      // Tail = lo que va DENTRO del nav colapsable.
+      // En tiendas, el carrito va FUERA del nav para seguir visible/tappable en móvil.
       var tail = isHome
         ? themeToggleHTML() + '<a href="/tienda.html" class="nav-cta">Comprar</a>'
-        : themeToggleHTML() + cartButtonHTML();
+        : themeToggleHTML();
+      var outsideControls = isHome ? '' : cartButtonHTML();
 
       html +=
         '<div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>' +
@@ -114,6 +117,7 @@
             '<nav class="main-nav" id="mainNav" aria-label="Navegación principal">' +
               linksHTML + tail +
             '</nav>' +
+            outsideControls +
             '<button class="menu-toggle" id="menuToggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="mainNav">' + SVG.burger + '</button>' +
           '</div>' +
         '</header>';

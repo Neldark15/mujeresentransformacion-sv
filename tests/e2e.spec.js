@@ -84,11 +84,17 @@ test.describe('Tienda + carrito', () => {
   test('cart drawer abre desde el header', async ({ page }) => {
     await page.goto('/tienda.html');
     await expect(page.locator('#cartDrawer')).toBeHidden();
-    await ensureNavOpen(page);
+    // El carrito debe ser accesible SIN abrir el menú hamburguesa (también en móvil)
+    await expect(page.locator('#cartButton')).toBeVisible();
     await page.locator('#cartButton').click();
     await expect(page.locator('#cartDrawer')).toBeVisible();
     await page.locator('#cartClose').click();
     await expect(page.locator('#cartDrawer')).toBeHidden();
+  });
+
+  test('el badge del carrito está oculto cuando está vacío', async ({ page }) => {
+    await page.goto('/tienda.html');
+    await expect(page.locator('#cartBadge')).toBeHidden();
   });
 
   test('agregar producto simple incrementa el badge', async ({ page }) => {

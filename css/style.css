@@ -175,10 +175,13 @@ h3 { font-size: 1.25rem; }
 .header-inner {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 16px;
   padding-top: 14px;
   padding-bottom: 14px;
 }
+/* El logo empuja el resto de controles a la derecha (nav + carrito + menú).
+   Permite que el carrito viva FUERA del nav colapsable y siga visible en móvil. */
+.header-inner > .logo-link { margin-right: auto; }
 .logo-link img { height: 48px; width: auto; }
 .main-nav {
   display: flex;
