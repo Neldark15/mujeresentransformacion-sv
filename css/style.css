@@ -58,6 +58,8 @@
 }
 
 * { box-sizing: border-box; }
+/* Custom elements de chrome: wrapper sin caja para no afectar layout/sticky */
+met-header, met-footer, met-chrome { display: contents; }
 html { scroll-behavior: smooth; }
 body {
   margin: 0;

@@ -32,3 +32,9 @@ yarn-error.log*
 
 # Vercel
 .vercel
+
+# Playwright / tests
+test-results/
+playwright-report/
+blob-report/
+.playwright/
